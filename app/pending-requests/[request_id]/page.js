@@ -23,7 +23,6 @@ function RequestDetails({ params }) {
         const reviewResponse = await axios.get(`/api/reviews?requestId=${params.request_id}`);
         const fetchedReview = reviewResponse.data.reviews;
         setReview(fetchedReview);
-
        
         if (fetchedReview && fetchedReview.productId) {
           const productResponse = await axios.get(`/api/products/${fetchedReview.productId}`);
@@ -65,24 +64,6 @@ function RequestDetails({ params }) {
     <div className="flex justify-center mt-10">
       <div className="flex space-x-6">
        
-        {product && (
-          <div className="flex flex-col gap-5 font-semibold text-lg">
-            <h1>Product Details</h1>
-            <div className="max-w-sm w-full bg-gray-50 shadow-md rounded-lg overflow-hidden">
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="w-full p-4 h-64 object-cover"
-              />
-              <div className="px-6 pb-5 flex flex-col gap-3">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2"></h3>
-                <p className="text-sm font-bold text-gray-800"><span className='text-lg'>Name : </span> {product.name}</p>
-                <p className="text-gray-800 text-sm flex flex-col gap-2"><span className='text-lg '>Description : </span> {product.description}</p>
-                <p className="font-medium text-sm text-gray-800"><span className='text-lg'>Price : </span> ${product.price}</p>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="flex flex-col gap-5 font-semibold text-lg">
           <h1>Requested Product Changes</h1>

@@ -3,6 +3,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '../../../lib/mongodb'; 
 import Review from '../../../models/Review'; 
+import Products from '@/models/Products';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -54,6 +55,12 @@ export async function PATCH(request) {
     const updatedReview = await Review.findByIdAndUpdate(
       reviewId,
       { status },
+      { new: true }
+    );
+    const{productId,name,description,price,imageUrl}=updatedReview
+    const updatedProduct = await Products.findByIdAndUpdate(
+    productId,
+      { name, description, price, imageUrl:image },
       { new: true }
     );
 

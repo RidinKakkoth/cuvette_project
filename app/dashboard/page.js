@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-export default function Dashboard() {
+function DashboardContent() {
   const [role, setRole] = useState('');
   const [products, setProducts] = useState([]);
   const router = useRouter();
@@ -39,27 +39,33 @@ export default function Dashboard() {
   };
 
   return (
-    <Suspense fallback={<div>Loading dashboard...</div>}>
-      <div className='p-5'>
-        <div className='flex gap-5 p-5'>
-          {products.map(product => (
-            <div
-              key={product._id}
-              onClick={() => handleClick(product)}
-              className='bg-gray-100 rounded-lg p-5 flex flex-col gap-2 cursor-pointer'
-            >
-              <Image
-                src={product.imageUrl}
-                className='rounded-md'
-                width={500}
-                height={500}
-                alt={product.name}
-              />
-              <h1 className='font-medium text-center text-lg'>{product.name}</h1>
-            </div>
-          ))}
-        </div>
+    <div className='p-5'>
+      <div className='flex gap-5 p-5'>
+        {products.map(product => (
+          <div
+            key={product._id}
+            onClick={() => handleClick(product)}
+            className='bg-gray-100 rounded-lg p-5 flex flex-col gap-2 cursor-pointer'
+          >
+            <Image
+              src={product.imageUrl}
+              className='rounded-md'
+              width={500}
+              height={500}
+              alt={product.name}
+            />
+            <h1 className='font-medium text-center text-lg'>{product.name}</h1>
+          </div>
+        ))}
       </div>
+    </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div>Loading dashboard...</div>}>
+      <DashboardContent />
     </Suspense>
   );
 }

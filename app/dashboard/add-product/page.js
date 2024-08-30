@@ -48,13 +48,10 @@ export default function AddProduct() {
       setError('Failed to add product. Please try again.');
     }
   };
-  const goBack = () => {
-    router.back(); 
-  };
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <button onClick={goBack} className='self-start rounded-md bg-gray-400 px-5 py-2 text-white font-semibold'>back</button>
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Add Product</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}

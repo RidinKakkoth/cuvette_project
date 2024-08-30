@@ -51,7 +51,7 @@ function RequestDetails({ params }) {
 
       setReview({ ...review, status: response.data.updatedReview.status });
       toast.success("status updated successfully")
-      router.push('/dahboard')
+      router.push('/dashboard')
     } catch (error) {
       toast.error("error updating")
       console.error('Error updating status:', error);

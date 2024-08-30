@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 
 export default function Home() {
   const router = useRouter();
+  const[userRole,setUserRole]=useState(null)
   
   useEffect(() => {
 

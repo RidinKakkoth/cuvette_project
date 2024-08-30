@@ -45,25 +45,26 @@ export default function DashboardContent() {
   };
 
   return (
-    <div className='p-5'>
-      <div className='flex gap-5 p-5'>
-        {products.map(product => (
-          <div
-            key={product._id}
-            onClick={() => handleClick(product)}
-            className='bg-gray-100 rounded-lg p-5 flex flex-col gap-2 cursor-pointer'
-          >
-            <Image
-              src={product.imageUrl}
-              className='rounded-md'
-              width={500}
-              height={500}
-              alt={product.name}
-            />
-            <h1 className='font-medium text-center text-lg'>{product.name}</h1>
-          </div>
-        ))}
+<div className='p-5'>
+  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5'>
+    {products.map(product => (
+      <div
+        key={product._id}
+        onClick={() => handleClick(product)}
+        className='bg-gray-100 rounded-lg p-5 flex flex-col gap-2 cursor-pointer'
+      >
+        <Image
+          src={product.imageUrl}
+          className='rounded-md'
+          width={500}
+          height={500}
+          alt={product.name}
+        />
+        <h1 className='font-medium text-center text-lg'>{product.name}</h1>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
   );
 }

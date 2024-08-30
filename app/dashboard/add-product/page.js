@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { storage } from '../../../lib/firebaseConfig'; // Import your Firebase config
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { toast } from 'react-toastify';
 
 export default function AddProduct() {
   const [name, setName] = useState('');
@@ -42,6 +43,7 @@ export default function AddProduct() {
     setPrice('');
     setDescription('');
     setImage(null);
+    toast.success("Product added successfully")
       
     } catch (err) {
       console.error('Error adding product:', err);
@@ -69,7 +71,7 @@ export default function AddProduct() {
           </div>
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="name">Product Description:</label>
-            <input
+            <textarea
               id="description"
               type="text"
               value={description}

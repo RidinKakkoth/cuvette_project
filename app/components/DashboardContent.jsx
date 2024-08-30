@@ -6,10 +6,12 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function DashboardContent() {
   const [role, setRole] = useState('');
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
 
@@ -29,11 +31,14 @@ export default function DashboardContent() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const response = await axios.get('/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -46,6 +51,11 @@ export default function DashboardContent() {
 
   return (
 <div className='p-5'>
+  {loading ? ( 
+        <div className="flex justify-center items-center h-screen">
+          <ClipLoader color="#4A90E2" loading={true} size={100} /> 
+        </div>
+      ) : (
   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5'>
     {products.map(product => (
       <div
@@ -63,7 +73,7 @@ export default function DashboardContent() {
         <h1 className='font-medium text-center text-lg'>{product.name}</h1>
       </div>
     ))}
-  </div>
+  </div>)}
 </div>
 
   );

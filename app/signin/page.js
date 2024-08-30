@@ -7,15 +7,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken';
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post('/api/auth/signin', { email, password });
@@ -26,9 +29,11 @@ export default function Signin() {
       
 
       token&&router.push(`/dashboard`);
-      // router.push(`/dashboard?role=${role}`);
+    
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred');
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -67,8 +72,14 @@ export default function Signin() {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Sign In
+            disabled={loading}
+          >{
+            loading?
+            (<ClipLoader color="#ffffff" loading={true} size={20} />):(
+
+              "Sign In"
+            )
+          }
           </button>
         </form>
 

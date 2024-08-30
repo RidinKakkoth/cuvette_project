@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export default function Signup() {
     password: '',
     role: 'team_member', 
   });
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter(); 
 
@@ -22,6 +24,7 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await axios.post('/api/auth/signup', formData);
@@ -31,6 +34,8 @@ export default function Signup() {
     } catch (err) {
       toast.error(err.response.data.message || 'Error signing up');
       console.error('Error signing up:', err);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -99,8 +104,14 @@ export default function Signup() {
           <button
             type="submit"
             className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600 transition duration-300"
-          >
-            Sign Up
+            disabled={loading}
+            >{
+              loading?
+              (<ClipLoader color="#ffffff" loading={true} size={20} />):(
+  
+                "Sign Up"
+              )
+            }
           </button>
         </form>
 

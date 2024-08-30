@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { storage } from '../../../lib/firebaseConfig'; // Import your Firebase config
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { toast } from 'react-toastify';
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function AddProduct() {
   const [name, setName] = useState('');
@@ -13,6 +14,7 @@ export default function AddProduct() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleImageChange = (e) => {
@@ -21,6 +23,7 @@ export default function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       let imageUrl = '';
@@ -48,6 +51,8 @@ export default function AddProduct() {
     } catch (err) {
       console.error('Error adding product:', err);
       setError('Failed to add product. Please try again.');
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -102,11 +107,16 @@ export default function AddProduct() {
             />
           </div>
           <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600 transition duration-300"
-          >
-            Add Product
-          </button>
+        type="submit"
+        className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+        disabled={loading} 
+      >
+        {loading ? ( 
+          <ClipLoader color="#ffffff" loading={true} size={20} /> 
+        ) : (
+          "Add Product" 
+        )}
+      </button>
         </form>
       </div>
     </div>

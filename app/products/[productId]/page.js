@@ -9,6 +9,7 @@ import { getCroppedImg } from "@/utils/cropImage";
 import { storage } from "../../../lib/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
@@ -22,9 +23,12 @@ export default function ProductDetail({ params }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`/api/products/${params.productId}`);
         setProduct(response.data);
@@ -33,6 +37,8 @@ export default function ProductDetail({ params }) {
         setPrice(response.data.price);
       } catch (error) {
         console.error("Error fetching product:", error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -88,6 +94,7 @@ export default function ProductDetail({ params }) {
   };
 
   const handleSubmit = async () => {
+    setSubmitLoading(true)
     if (!product) return;
 
     const userId = getUserIdFromToken();
@@ -96,13 +103,15 @@ export default function ProductDetail({ params }) {
 
     if (newImageUrl) {
       formData.append("image", newImageUrl);
+    }
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
       formData.append("productId", product._id);
       formData.append("submittedBy", userId);
-    }
     const formDataObject = Object.fromEntries(formData);
+    console.log(formDataObject,"ffffffff");
+    
 
     try {
       if (role === "admin") {
@@ -129,11 +138,19 @@ export default function ProductDetail({ params }) {
       }
     } catch (error) {
       console.error("Error updating product:", error);
+    }finally{
+      setSubmitLoading(false)
     }
   };
 
   return (
     <div className="p-4 mx-auto max-w-5xl mt-10 bg-white rounded-lg shadow-md">
+      {loading ? ( // Conditionally render spinner or content
+        <div className="flex justify-center items-center h-screen">
+          <ClipLoader color="#4A90E2" loading={true} size={50} /> {/* Spinner */}
+        </div>
+      ) : (
+        <>
       <h2 className="text-2xl font-semibold mb-4">Edit Product</h2>
 
       {product && (
@@ -239,13 +256,19 @@ export default function ProductDetail({ params }) {
           )}
         </div>
       )}
-
-      <button
-        onClick={handleSubmit}
-        className="bg-green-500 mt-5 text-white py-2 px-4 rounded"
-      >
-        {role === "admin" ? "Update Product" : "Submit for Review"}
-      </button>
+        </>
+      )}
+<button
+      onClick={handleSubmit}
+      className="bg-green-500 mt-5 text-white py-2 px-4 rounded flex items-center justify-center"
+      disabled={submitLoading} 
+    >
+      {submitLoading ? (
+        <ClipLoader color="#ffffff" loading={true} size={20} /> 
+      ) : (
+        role === "admin" ? "Update Product" : "Submit for Review"
+      )}
+    </button>
     </div>
   );
 }

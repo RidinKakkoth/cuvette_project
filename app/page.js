@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken'
 
 export default function Home() {
   const router = useRouter();
-
+  const[userRole,setUserRole]=useState(null)
   useEffect(() => {
 
     const token = localStorage.getItem('token'); 
     const decoded=jwt.decode(token)
+    
     const role=decoded.role
+    setUserRole(role)
+    
+    
     if (token) {
-      router.push(`/dashboard?role=${role}`);
+      router.push(`/dashboard?role=${userRole}`);
     } else {
       router.push('/signin');
     }

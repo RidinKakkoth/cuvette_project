@@ -60,7 +60,7 @@ export async function PATCH(request) {
     const{productId,name,description,price,imageUrl}=updatedReview
     const updatedProduct = await Products.findByIdAndUpdate(
     productId,
-      { name, description, price, imageUrl:image },
+      { name, description, price, imageUrl:imageUrl },
       { new: true }
     );
 

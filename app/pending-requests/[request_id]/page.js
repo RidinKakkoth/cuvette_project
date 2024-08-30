@@ -4,12 +4,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
+import { useRouter } from 'next/navigation';
 
 function RequestDetails({ params }) {
   const [review, setReview] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const router=useRouter()
 
   const changeAlert=<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
@@ -48,6 +51,7 @@ function RequestDetails({ params }) {
 
       setReview({ ...review, status: response.data.updatedReview.status });
       toast.success("status updated successfully")
+      router.push('/dahboard')
     } catch (error) {
       toast.error("error updating")
       console.error('Error updating status:', error);

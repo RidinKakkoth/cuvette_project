@@ -9,6 +9,7 @@ export default function Navbar() {
   const[userRole,setUserRole]=useState(null)
   const dropdownRef = useRef(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -33,15 +34,16 @@ export default function Navbar() {
           const decoded = jwt.decode(token); 
        
         const role=decoded.role
+        console.log(role,"rrrrrrrrr");
+        
         setUserRole(role)
         }
         if  (token&&pathname === "/signin" || pathname === "/signup"){
-          router.push(`/dashboard?role=${role}`);
+          router.push(`/dashboard?role=${userRole}`);
         }
   },[pathname,router])
 
 
-  const router = useRouter();
   if (pathname === "/signin" || pathname === "/signup") {
     return null;
   }

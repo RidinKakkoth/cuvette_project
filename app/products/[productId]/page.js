@@ -14,6 +14,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
   const [image, setImage] = useState(null);
+  const [productImage, setProductImage] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const [newImageUrl, setNewImageUrl] = useState(null);
@@ -35,6 +36,7 @@ export default function ProductDetail({ params }) {
         setName(response.data.name);
         setDescription(response.data.description);
         setPrice(response.data.price);
+        setProductImage(response.data.imageUrl)
       } catch (error) {
         console.error("Error fetching product:", error);
       }finally{
@@ -103,6 +105,8 @@ export default function ProductDetail({ params }) {
 
     if (newImageUrl) {
       formData.append("image", newImageUrl);
+    }else{
+      formData.append("image",productImage)
     }
       formData.append("name", name);
       formData.append("description", description);
@@ -145,9 +149,9 @@ export default function ProductDetail({ params }) {
 
   return (
     <div className="p-4 mx-auto max-w-5xl mt-10 bg-white rounded-lg shadow-md">
-      {loading ? ( // Conditionally render spinner or content
+      {loading ? ( 
         <div className="flex justify-center items-center h-screen">
-          <ClipLoader color="#4A90E2" loading={true} size={50} /> {/* Spinner */}
+          <ClipLoader color="#4A90E2" loading={true} size={50} /> 
         </div>
       ) : (
         <>

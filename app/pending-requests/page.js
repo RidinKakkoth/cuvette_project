@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 const statusColors = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -40,10 +41,7 @@ const PendingRequest = () => {
     fetchReviews();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/signin");
-  };
+
   const handleClick = (id) => {
     router.push(`/pending-requests/${id}`);
   };
@@ -51,12 +49,14 @@ const PendingRequest = () => {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">Submissions</h1>
 
       {loading ? (
-        <p className="text-gray-600">Loading...</p>
-      ) : (
-        <div className="overflow-x-auto">
+        <div className="h-screen flex justify-center items-center">
+<ClipLoader className="" color="#4A90E2" loading={true} size={50} />
+</div>
+) : (
+  <div className="overflow-x-auto">
+          <h1 className="text-3xl font-bold mb-6 text-gray-900">Submissions</h1>
           {reviews.length > 0 ? (
             <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100 border-b">
@@ -83,7 +83,7 @@ const PendingRequest = () => {
                   <tr
                     onClick={() => handleClick(review._id)}
                     key={review._id}
-                    className="border-b hover:bg-gray-50"
+                    className="border-b cursor-pointer hover:bg-gray-50"
                   >
                     <td className="p-4">
                       <img

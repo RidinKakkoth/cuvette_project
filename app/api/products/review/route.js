@@ -11,7 +11,7 @@ export async function POST(request) {
     const { productId, name, description, price, image, submittedBy } = Object.fromEntries(formData);
 console.log(productId,name,price,submittedBy,description,image,"========");
 
-    if (!productId || !name || !description || !price ||!image|| !submittedBy) {
+    if (!productId || !name || !description || !price || !submittedBy) {
       throw new Error('Missing required fields');
     }
 

@@ -3,12 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 function RequestDetails({ params }) {
   const [review, setReview] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const changeAlert=<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+</svg>
+
 
   useEffect(() => {
     const fetchReviewAndProduct = async () => {
@@ -49,7 +55,9 @@ function RequestDetails({ params }) {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading){ return <div className="flex justify-center items-center h-screen">
+  <ClipLoader color="#4A90E2" loading={true} size={50} /> 
+</div>}
   if (error) return <div>{error}</div>;
   if (!review) return <div>No review found.</div>;
 
@@ -66,11 +74,11 @@ function RequestDetails({ params }) {
                 alt={product.name}
                 className="w-full p-4 h-64 object-cover"
               />
-              <div className="p-6 flex flex-col gap-3">
+              <div className="px-6 pb-5 flex flex-col gap-3">
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2"></h3>
-                <p className="text-lg font-medium text-gray-800">Name: {product.name}</p>
-                <p className="text-gray-800">Description: {product.description}</p>
-                <p className="text-lg font-medium text-gray-800">Price: ${product.price}</p>
+                <p className="text-sm font-bold text-gray-800"><span className='text-lg'>Name : </span> {product.name}</p>
+                <p className="text-gray-800 text-sm flex flex-col gap-2"><span className='text-lg '>Description : </span> {product.description}</p>
+                <p className="font-medium text-sm text-gray-800"><span className='text-lg'>Price : </span> ${product.price}</p>
               </div>
             </div>
           </div>
@@ -88,29 +96,30 @@ function RequestDetails({ params }) {
             />
             <div className="p-6">
               <h2
-                className={`text-xl font-semibold mb-2 ${
+                className={`text-sm font-semibold mb-2 flex items-center gap-2 ${
                   product && review.name !== product.name ? 'text-red-600 ' : 'text-gray-800'
                 }`}
               >
-               <span className='text-black'>Name:</span> {review.name}
+               <span className='text-black text-lg'>Name:</span> {review.name}{product && review.name !== product.name ?changeAlert:""}
               </h2>
               <p
-                className={`mb-4 ${
+                className={`mb-4 text-sm flex flex-col gap-2 ${
                   product && review.description !== product.description ? 'text-red-600' : 'text-gray-600'
                 }`}
               >
-               <span className='text-black'>Description:</span> {review.description}
+               <span className='text-black text-lg '>Description:</span> {review.description}{product && review.description !== product.description ?changeAlert:""}
               </p>
               <p
-                className={`text-lg font-medium mb-4 ${
+                className={`text-sm font-medium mb-4 flex items-center gap-2 ${
                   product && review.price !== product.price ? 'text-red-600' : 'text-gray-600'
                 }`}
               >
-               <span className='text-black'>Price:</span> ${review.price}
+               <span className='text-black font-bold'>Price:</span> ${review.price} {product && review.price !== product.price ?changeAlert
+:""}
               </p>
 
               <p
-  className={`text-md font-medium mb-4 ${
+  className={`text-sm font-bold mb-4 ${
     review.status === 'approved'
       ? 'text-green-500'
       : review.status === 'rejected'
@@ -120,7 +129,7 @@ function RequestDetails({ params }) {
       : 'text-gray-700'
   }`}
 >
-<span className='text-black'>Status:</span> {review.status}
+<span className='text-black text-sm'>Status:</span> {review.status}
 </p>
 
               {review.status === 'pending' && (

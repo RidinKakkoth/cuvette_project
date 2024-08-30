@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt from 'jsonwebtoken'; 
 import { useRouter } from 'next/navigation';
+import { ClipLoader } from 'react-spinners';
 
 const statusColors = {
   pending: 'bg-yellow-200 text-yellow-800',
@@ -46,8 +47,9 @@ const router=useRouter()
       <h1 className="text-3xl font-bold mb-6 text-gray-900">My Submissions</h1>
 
       {loading ? (
-        <p className="text-gray-600">Loading...</p>
-      ) : (
+        <div className="flex justify-center items-center h-screen">
+          <ClipLoader color="#4A90E2" loading={true} size={50} /> 
+        </div>      ) : (
         <div className="overflow-x-auto">
           {reviews.length > 0 ? (
             <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">

@@ -1,70 +1,32 @@
-// // app/api/reviews/route.js
-// import { NextResponse } from 'next/server';
-// import dbConnect from '../../../lib/mongodb'; // Connect to MongoDB
-// import Review from '../../../models/Review'; // Review model
-
-// export async function GET(request) {
-//   const { searchParams } = new URL(request.url);
-//   const userId = searchParams.get('userId');
-//   const role = searchParams.get('role');
-
-//   if (!userId) {
-//     return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
-//   }
-
-//   try {
-//     await dbConnect(); 
-
-//     let reviews;
-//     if (role === 'admin') {
-//       // Fetch all reviews for admin
-//       reviews = await Review.find({});
-//     } else if (role === 'team_member' && userId) {
-//       // Fetch reviews submitted by the specific user
-//       reviews = await Review.find({ submittedBy: userId });
-//     } else {
-      
-//       return NextResponse.json({ error: 'Invalid role or missing userId' }, { status: 400 });
-//     }
-
-//     return NextResponse.json({ reviews }, { status: 200 });
-// } catch (error) {
-//     console.error('Error fetching reviews:', error);
-//     return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
-//   }
-// }
-
 
 
 import { NextResponse } from 'next/server';
-import dbConnect from '../../../lib/mongodb'; // Connect to MongoDB
-import Review from '../../../models/Review'; // Review model
+import dbConnect from '../../../lib/mongodb'; 
+import Review from '../../../models/Review'; 
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
   const role = searchParams.get('role');
-  const reviewId = searchParams.get('requestId'); // Fetch the specific review_id from query params
+  const reviewId = searchParams.get('requestId'); 
 
 
   try {
-    await dbConnect(); // Connect to MongoDB
+    await dbConnect(); 
 
 
     let reviews;
 
     if (reviewId) {
-      // Fetch a specific review by review_id
       reviews = await Review.findById(reviewId);
 
       if (!reviews) {
         return NextResponse.json({ error: 'Review not found' }, { status: 404 });
       }
     } else if (role === 'admin') {
-      // Fetch all reviews for admin
       reviews = await Review.find({});
     } else if (role === 'team_member' && userId) {
-      // Fetch reviews submitted by the specific user
+ 
       reviews = await Review.find({ submittedBy: userId });
     } else {
       return NextResponse.json({ error: 'Invalid role or missing userId' }, { status: 400 });
@@ -80,7 +42,7 @@ export async function GET(request) {
 export async function PATCH(request) {
   const { searchParams } = new URL(request.url);
   const reviewId = searchParams.get('reviewId');
-  const { status } = await request.json(); // Get the status from the request body
+  const { status } = await request.json();
 
   if (!reviewId) {
     return NextResponse.json({ message: 'Review ID is required' }, { status: 400 });

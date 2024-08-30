@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       }
 
       try {
-        const file = files.image[0]; // Adjust based on your form data
+        const file = files.image[0]; 
         const storageRef = ref(storage, `products/${file.originalFilename}`);
         const snapshot = await uploadBytes(storageRef, file.filepath);
 

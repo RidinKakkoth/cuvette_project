@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from './components/Navbar.jsx';
-
+import { ToastContainer, toast } from "react-toastify"; 
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,6 +14,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 
+ 
+
 
   return (
     <html lang="en">
@@ -20,6 +23,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
       <Navbar  />
         {children}
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} /> 
         </body>
     </html>
   );

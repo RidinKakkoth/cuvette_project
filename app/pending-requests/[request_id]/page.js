@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function RequestDetails({ params }) {
   const [review, setReview] = useState(null);
@@ -41,8 +42,9 @@ function RequestDetails({ params }) {
       });
 
       setReview({ ...review, status: response.data.updatedReview.status });
-      alert("status updated successfully")
+      toast.success("status updated successfully")
     } catch (error) {
+      toast.error("error updating")
       console.error('Error updating status:', error);
     }
   };

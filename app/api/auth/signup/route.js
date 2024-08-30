@@ -8,14 +8,13 @@ export async function POST(request) {
     
     await connectDb();
 
-    // Check if user already exists
+    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return new Response(JSON.stringify({ message: 'User already exists.' }), { status: 400 });
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+    const hashedPassword = await bcrypt.hash(password, 10); 
 
     // Create new user
     const newUser = new User({ name, email, password: hashedPassword, role });

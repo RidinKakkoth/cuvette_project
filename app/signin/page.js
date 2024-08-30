@@ -23,16 +23,17 @@ export default function Signin() {
       localStorage.setItem('token', token);
 
       const decoded = jwt.decode(token);
-      const role = decoded.role;
+      
 
-      router.push(`/dashboard?role=${role}`);
+      token&&router.push(`/dashboard`);
+      // router.push(`/dashboard?role=${role}`);
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}

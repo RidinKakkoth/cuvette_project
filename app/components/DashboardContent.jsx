@@ -1,7 +1,8 @@
-// DashboardContent.jsx
+
 "use client";
 
 import { useEffect, useState } from 'react';
+import jwt from 'jsonwebtoken'
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
@@ -10,17 +11,21 @@ export default function DashboardContent() {
   const [role, setRole] = useState('');
   const [products, setProducts] = useState([]);
   const router = useRouter();
-  const searchParams = useSearchParams();
+
 
   useEffect(() => {
-    const roleParam = searchParams.get('role');
-    if (!roleParam) {
-      router.push('/signin');
-      return;
-    }
+    const token = localStorage.getItem('token'); 
+        if(token){
+          const decoded = jwt.decode(token); 
+       
+        const userRole=decoded.role
+        
+        
+        
+        setRole(userRole);
+        }
 
-    setRole(roleParam);
-  }, [searchParams, router]);
+  }, [ router]);
 
   useEffect(() => {
     const fetchProducts = async () => {

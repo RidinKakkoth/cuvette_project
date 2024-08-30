@@ -1,7 +1,7 @@
 "use client"; 
 
 import { Suspense } from 'react';
-import DashboardContent from '../components/DashboardContent.jsx'; // Import the separated component
+import DashboardContent from '../components/DashboardContent.jsx'; 
 
 export default function Dashboard() {
   return (

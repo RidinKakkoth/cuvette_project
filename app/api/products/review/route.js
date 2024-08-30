@@ -1,6 +1,5 @@
-// app/api/products/review/route.js
 
-import dbConnect from '../../../../lib/mongodb'; // Ensure the path is correct
+import dbConnect from '../../../../lib/mongodb'; 
 import Review from '../../../../models/Review';
 import { NextResponse } from 'next/server';
 

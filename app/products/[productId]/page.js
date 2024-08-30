@@ -8,6 +8,7 @@ import Cropper from "react-easy-crop";
 import { getCroppedImg } from "@/utils/cropImage";
 import { storage } from "../../../lib/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "react-toastify";
 
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
@@ -117,14 +118,14 @@ export default function ProductDetail({ params }) {
         setPrice(response.data.product.price);
         setCroppedImage(null);
         setNewImageUrl(null);
-        alert("Product updated successfully!");
+        toast.success("Product updated successfully!");
       } else {
         const response = await axios.post("/api/products/review", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        alert("Product update submitted for review!");
+        toast.success("Product update submitted for review!");
       }
     } catch (error) {
       console.error("Error updating product:", error);

@@ -42,14 +42,14 @@ export default function AddProduct() {
     setPrice('');
     setDescription('');
     setImage(null);
-      // router.push('/dashboard');
+      
     } catch (err) {
       console.error('Error adding product:', err);
       setError('Failed to add product. Please try again.');
     }
   };
   const goBack = () => {
-    router.back(); // This will navigate to the previous page in the history
+    router.back(); 
   };
 
   return (

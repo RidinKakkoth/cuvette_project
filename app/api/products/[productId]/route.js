@@ -1,6 +1,5 @@
-import connectDb  from '../../../../lib/mongodb'; // Adjust based on your project structure
-import Product from '../../../../models/Products'; // Adjust based on your project structure
-
+import connectDb  from '../../../../lib/mongodb';
+import Product from '../../../../models/Products'; 
 export async function GET(request,{params}) {
     
     

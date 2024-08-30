@@ -38,7 +38,7 @@ export async function PUT(request) {
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
       { name, description, price, imageUrl:image },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedProduct) {

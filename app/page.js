@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 export default function Home() {
   const router = useRouter();
-  const[userRole,setUserRole]=useState(null)
+  
   useEffect(() => {
 
     const token = localStorage.getItem('token'); 
@@ -17,7 +17,8 @@ export default function Home() {
     
     
     if (token) {
-      router.push(`/dashboard?role=${userRole}`);
+      router.push(`/dashboard`);
+      // router.push(`/dashboard?role=${userRole}`);
     } else {
       router.push('/signin');
     }

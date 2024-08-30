@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -28,13 +29,13 @@ export default function Signup() {
 
       router.push('/signin'); 
     } catch (err) {
-      alert(err.response.data.message || 'Error signing up');
+      toast.error(err.response.data.message || 'Error signing up');
       console.error('Error signing up:', err);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-4">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
         <form onSubmit={handleSubmit} className="space-y-4">

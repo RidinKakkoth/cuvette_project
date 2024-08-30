@@ -38,7 +38,7 @@ export default function Navbar() {
         if  (token&&pathname === "/signin" || pathname === "/signup"){
           router.push(`/dashboard?role=${role}`);
         }
-  },[])
+  },[pathname,router])
 
 
   const router = useRouter();
